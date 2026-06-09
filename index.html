@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Redwan | 3D Neon Aquarium Portfolio</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+</head>
+<body class="selection:bg-primary-fixed selection:text-surface">
+    <!-- Boot Loading Screen Overlay -->
+    <div id="loading-screen">
+        <div class="boot-terminal">
+            <div class="terminal-header justify-between">
+                <div class="flex space-x-2">
+                    <div class="dot dot-red"></div>
+                    <div class="dot dot-yellow"></div>
+                    <div class="dot dot-green"></div>
+                </div>
+                <div class="font-mono text-xs text-on-surface-variant opacity-70">core_boot_seq.sh</div>
+            </div>
+            <div class="boot-log-container" id="boot-log">
+                <!-- Dynamically populated via JS -->
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WebGL Canvas Backdrop (fish bg only) -->
+    <div id="fish-bg"></div>
+
+    <!-- Top Navigation Header -->
+    <header class="bg-surface-container-low/80 backdrop-blur-md border-b border-outline-variant sticky top-0 z-50">
+        <div class="flex justify-between items-center w-full px-margin-mobile py-unit max-w-container-max mx-auto h-14">
+            <div class="flex items-center gap-unit">
+                <span class="font-bold text-on-surface text-sm">~/portfolio/neon-aquarium</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-gutter">
+                <a class="text-primary-fixed border-b-2 border-primary-fixed pb-1 text-sm transition-all duration-150 ease-in-out" href="#hero">Home</a>
+                <a class="text-on-surface-variant hover:text-primary-fixed hover:bg-surface-variant/20 text-sm transition-all duration-150 ease-in-out" href="#projects">Projects</a>
+                <a class="text-on-surface-variant hover:text-primary-fixed hover:bg-surface-variant/20 text-sm transition-all duration-150 ease-in-out" href="#stack">Stack</a>
+                <a class="text-on-surface-variant hover:text-primary-fixed hover:bg-surface-variant/20 text-sm transition-all duration-150 ease-in-out" href="#blog">Blog</a>
+                <a class="text-on-surface-variant hover:text-primary-fixed hover:bg-surface-variant/20 text-sm transition-all duration-150 ease-in-out" href="#contact">Contact</a>
+            </nav>
+            <div class="flex gap-unit">
+                <span class="material-symbols-outlined text-on-surface-variant text-[20px] cursor-pointer hover:text-primary-fixed">minimize</span>
+                <span class="material-symbols-outlined text-on-surface-variant text-[20px] cursor-pointer hover:text-primary-fixed">fullscreen</span>
+                <span class="material-symbols-outlined text-on-surface-variant text-[20px] cursor-pointer hover:text-primary-fixed">close</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-12 space-y-28 relative z-10">
+        
+        <!-- Hero Section -->
+        <section class="w-full" id="hero">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center min-h-[75vh] relative">
+                <div class="space-y-8 reveal-slide-left">
+                    <div class="space-y-4">
+                        <p class="text-primary-fixed font-mono text-sm tracking-widest uppercase">[ Introduction ]</p>
+                        <h1 class="text-headline-xl md:text-[64px] font-bold leading-tight text-on-surface">
+                            Hi, my name is <span class="text-primary-fixed pulse-glow">Redwan.</span>
+                        </h1>
+                        <h2 class="text-headline-lg text-on-surface-variant opacity-80">Full Stack Engineer &amp; Creative Developer</h2>
+                    </div>
+                    <p class="text-lg leading-relaxed text-on-surface-variant max-w-xl font-body-md">
+                        I build accessible, pixel-perfect experiences for the web. I specialize in crafting thoughtful, organic, and highly-performant interactive systems at the intersection of design and engineering.
+                    </p>
+                    <div class="flex flex-wrap gap-6 pt-4">
+                        <a class="group relative px-8 py-4 text-sm font-bold text-primary-fixed transition-all duration-300" href="#contact">
+                            <span class="absolute inset-0 border border-primary-fixed rounded"></span>
+                            <span class="absolute inset-0 bg-primary-fixed scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+                            <span class="relative group-hover:text-surface">GET_IN_TOUCH</span>
+                        </a>
+                        <a class="group relative px-8 py-4 text-sm font-bold text-on-surface transition-all duration-300" href="#projects">
+                            <span class="absolute inset-0 bg-surface-container-high rounded"></span>
+                            <span class="absolute inset-0 bg-surface-variant scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+                            <span class="relative">VIEW_PROJECTS</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Terminal Window -->
+                <div class="terminal-window rounded shadow-2xl overflow-hidden border-outline-variant max-w-lg ml-auto w-full reveal-slide-right delay-200">
+                    <div class="terminal-header">
+                        <div class="flex space-x-2">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="ml-4 font-mono text-xs text-on-surface-variant opacity-70">status.sh</div>
+                    </div>
+                    <div class="p-6 font-mono text-sm space-y-4 text-primary-fixed leading-relaxed">
+                        <div class="space-y-1">
+                            <p class="text-on-surface-variant">// System Status</p>
+                            <p><span class="text-primary-container">[OK]</span> Neural-OS v2.4.0</p>
+                            <p><span class="text-primary-container">[OK]</span> Uptime: 14,204h</p>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="text-on-surface-variant">// Active Processes</p>
+                            <p class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-fixed rounded-full animate-pulse"></span> Bioluminescence Engine</p>
+                            <p class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-fixed rounded-full animate-pulse"></span> Multi-viewport Renderer</p>
+                        </div>
+                        <p class="mt-4 cursor-terminal-blink">_</p>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-0 left-0 flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity">
+                    <span class="font-mono text-[10px] uppercase tracking-[0.5em] [writing-mode:vertical-lr]">Scroll</span>
+                    <div class="w-px h-12 bg-primary-fixed animate-pulse"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section (3D divisions) -->
+        <section class="relative space-y-8" id="projects">
+            <div class="flex items-center gap-2 mb-2 reveal-on-scroll">
+                <span class="text-primary-container text-sm">guest@portfolio:~$</span>
+                <h2 class="text-xl font-bold">ls ./projects --view=3d</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Project 1: Lusciouss -->
+                <div class="project-ui-overlay terminal-window rounded overflow-hidden flex flex-col h-full hover:border-primary-fixed reveal-on-scroll project-card-1" data-project-index="0">
+                    <div class="terminal-header bg-surface-container-high px-3 justify-between flex items-center">
+                        <div class="flex items-center font-mono text-xs">
+                            <span class="material-symbols-outlined text-[16px] text-primary-fixed mr-2">restaurant_menu</span>
+                            <span>lusciouss.html</span>
+                        </div>
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+                        </div>
+                    </div>
+                    <div class="project-3d-placeholder cursor-pointer" data-project="synapse"></div>
+                    <div class="p-6 space-y-4 flex-1 flex flex-col justify-between bg-surface-container-lowest/50 border-t border-outline-variant/30">
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-bold text-primary-fixed">Lusciouss</h3>
+                            <p class="text-sm text-on-surface-variant leading-relaxed">A visually rich, modern restaurant landing page with smooth animations, elegant food sections, and a fully responsive layout.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="border border-primary-fixed px-2 py-0.5 text-[10px] text-primary-fixed uppercase font-bold">[HTML]</span>
+                            <span class="border border-outline px-2 py-0.5 text-[10px] text-on-surface-variant uppercase font-bold">[CSS]</span>
+                            <span class="border border-outline px-2 py-0.5 text-[10px] text-on-surface-variant uppercase font-bold">[JS]</span>
+                        </div>
+                        <div class="flex gap-3 pt-3">
+                            <a href="https://github.com/Its-Rafin/Lusciouss" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-xs font-mono text-on-surface-variant hover:text-primary-fixed transition-colors border border-outline-variant hover:border-primary-fixed px-3 py-1.5 rounded">
+                                <span class="material-symbols-outlined text-[14px]">code</span> GitHub
+                            </a>
+                            <a href="https://its-rafin.github.io/Lusciouss/" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-xs font-mono text-primary-fixed hover:text-surface hover:bg-primary-fixed transition-all border border-primary-fixed px-3 py-1.5 rounded">
+                                <span class="material-symbols-outlined text-[14px]">open_in_new</span> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: GoodFood Dashboard -->
+                <div class="project-ui-overlay terminal-window rounded overflow-hidden flex flex-col h-full hover:border-primary-fixed reveal-on-scroll delay-100 project-card-2" data-project-index="1">
+                    <div class="terminal-header bg-surface-container-high px-3 justify-between flex items-center">
+                        <div class="flex items-center font-mono text-xs">
+                            <span class="material-symbols-outlined text-[16px] text-primary-fixed mr-2">dashboard</span>
+                            <span>goodfood_dashboard.js</span>
+                        </div>
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+                        </div>
+                    </div>
+                    <div class="project-3d-placeholder cursor-pointer" data-project="ghost"></div>
+                    <div class="p-6 space-y-4 flex-1 flex flex-col justify-between bg-surface-container-lowest/50 border-t border-outline-variant/30">
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-bold text-primary-fixed">GoodFood Dashboard</h3>
+                            <p class="text-sm text-on-surface-variant leading-relaxed">A sleek food delivery admin dashboard UI with dynamic order stats, clean layout, and a beautiful dark-themed interface.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="border border-primary-fixed px-2 py-0.5 text-[10px] text-primary-fixed uppercase font-bold">[HTML]</span>
+                            <span class="border border-outline px-2 py-0.5 text-[10px] text-on-surface-variant uppercase font-bold">[CSS]</span>
+                            <span class="border border-outline px-2 py-0.5 text-[10px] text-on-surface-variant uppercase font-bold">[JS]</span>
+                        </div>
+                        <div class="flex gap-3 pt-3">
+                            <a href="https://github.com/Its-Rafin/goodfood_dashboard" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-xs font-mono text-on-surface-variant hover:text-primary-fixed transition-colors border border-outline-variant hover:border-primary-fixed px-3 py-1.5 rounded">
+                                <span class="material-symbols-outlined text-[14px]">code</span> GitHub
+                            </a>
+                            <a href="https://its-rafin.github.io/goodfood_dashboard/" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-xs font-mono text-primary-fixed hover:text-surface hover:bg-primary-fixed transition-all border border-primary-fixed px-3 py-1.5 rounded">
+                                <span class="material-symbols-outlined text-[14px]">open_in_new</span> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Burger Template Design -->
+                <div class="project-ui-overlay terminal-window rounded overflow-hidden flex flex-col h-full hover:border-primary-fixed reveal-on-scroll delay-200 project-card-3" data-project-index="2">
+                    <div class="terminal-header bg-surface-container-high px-3 justify-between flex items-center">
+                        <div class="flex items-center font-mono text-xs">
+                            <span class="material-symbols-outlined text-[16px] text-primary-fixed mr-2">database</span>
+                            <span>rust_ledger.rs</span>
+                        </div>
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3D Viewport Placeholder -->
+                    <div class="project-3d-placeholder cursor-pointer" data-project="ledger"></div>
+                    
+                    <div class="p-6 space-y-4 flex-1 flex flex-col justify-between bg-surface-container-lowest/50 border-t border-outline-variant/30">
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-bold text-primary-fixed">RustLedger</h3>
+                            <p class="text-sm text-on-surface-variant leading-relaxed">
+                                Blockchain distributed ledger represented as spinning cubes with glowing peer connections.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="border border-primary-fixed px-2 py-0.5 text-[10px] text-primary-fixed uppercase font-bold">[Web3]</span>
+                            <span class="border border-outline px-2 py-0.5 text-[10px] text-on-surface-variant uppercase font-bold">[Rust]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack -->
+        <section class="space-y-8" id="stack">
+            <div class="flex items-center gap-2 mb-2 reveal-on-scroll">
+                <span class="text-primary-container text-sm">guest@portfolio:~$</span>
+                <h2 class="text-xl font-bold">cat ./stack.json</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="border border-outline-variant p-6 flex flex-col items-center justify-center transition-all duration-300 glow-sm group hover:border-primary-fixed bg-surface-container-lowest/50 backdrop-blur-sm rounded reveal-scale-up">
+                    <span class="material-symbols-outlined text-4xl mb-4 text-on-surface-variant group-hover:text-primary-fixed">language</span>
+                    <span class="text-xs font-bold">TypeScript</span>
+                </div>
+                <div class="border border-outline-variant p-6 flex flex-col items-center justify-center transition-all duration-300 glow-sm group hover:border-primary-fixed bg-surface-container-lowest/50 backdrop-blur-sm rounded reveal-scale-up delay-100">
+                    <span class="material-symbols-outlined text-4xl mb-4 text-on-surface-variant group-hover:text-primary-fixed">javascript</span>
+                    <span class="text-xs font-bold">Node.js</span>
+                </div>
+                <div class="border border-outline-variant p-6 flex flex-col items-center justify-center transition-all duration-300 glow-sm group hover:border-primary-fixed bg-surface-container-lowest/50 backdrop-blur-sm rounded reveal-scale-up delay-200">
+                    <span class="material-symbols-outlined text-4xl mb-4 text-on-surface-variant group-hover:text-primary-fixed">terminal</span>
+                    <span class="text-xs font-bold">Rust</span>
+                </div>
+                <div class="border border-outline-variant p-6 flex flex-col items-center justify-center transition-all duration-300 glow-sm group hover:border-primary-fixed bg-surface-container-lowest/50 backdrop-blur-sm rounded reveal-scale-up delay-300">
+                    <span class="material-symbols-outlined text-4xl mb-4 text-on-surface-variant group-hover:text-primary-fixed">data_object</span>
+                    <span class="text-xs font-bold">PostgreSQL</span>
+                </div>
+                <div class="border border-outline-variant p-6 flex flex-col items-center justify-center transition-all duration-300 glow-sm group hover:border-primary-fixed bg-surface-container-lowest/50 backdrop-blur-sm rounded reveal-scale-up delay-400">
+                    <span class="material-symbols-outlined text-4xl mb-4 text-on-surface-variant group-hover:text-primary-fixed">cloud</span>
+                    <span class="text-xs font-bold">AWS/K8s</span>
+                </div>
+                <div class="border border-outline-variant p-6 flex flex-col items-center justify-center transition-all duration-300 glow-sm group hover:border-primary-fixed bg-surface-container-lowest/50 backdrop-blur-sm rounded reveal-scale-up delay-500">
+                    <span class="material-symbols-outlined text-4xl mb-4 text-on-surface-variant group-hover:text-primary-fixed">frame_person</span>
+                    <span class="text-xs font-bold">React/Next</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- GitHub Contributions -->
+        <section class="space-y-8" id="github">
+            <div class="flex items-center gap-2 mb-2 reveal-on-scroll">
+                <span class="text-primary-container text-sm">guest@portfolio:~$</span>
+                <h2 class="text-xl font-bold">fetch git-contributions</h2>
+            </div>
+            
+            <div class="border border-outline-variant p-6 bg-surface-container-lowest/60 backdrop-blur-md rounded reveal-on-scroll">
+                <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+                    <span class="font-mono text-sm text-primary-fixed" id="git-contribution-count">743 contributions in the last year</span>
+                    <div class="flex items-center gap-1 text-xs opacity-50">
+                        <span>Less</span>
+                        <div class="w-3 h-3 bg-surface-variant"></div>
+                        <div class="w-3 h-3 bg-on-primary-fixed-variant"></div>
+                        <div class="w-3 h-3 bg-on-primary-container"></div>
+                        <div class="w-3 h-3 bg-primary-container"></div>
+                        <div class="w-3 h-3 bg-primary-fixed"></div>
+                        <span>More</span>
+                    </div>
+                </div>
+                <div class="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto pb-4" id="contribution-graph">
+                    <!-- Graph items will be created dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section class="space-y-8" id="blog">
+            <div class="flex items-center gap-2 mb-2 reveal-on-scroll">
+                <span class="text-primary-container text-sm">guest@portfolio:~$</span>
+                <h2 class="text-xl font-bold">grep -r 'latest' ./blog</h2>
+            </div>
+            
+            <div class="space-y-1 bg-surface-container-lowest/30 backdrop-blur-sm p-2 border border-outline-variant rounded reveal-on-scroll">
+                <article class="group cursor-pointer border-b border-outline-variant/30 py-4 flex justify-between items-center hover:bg-surface-variant/20 transition-colors px-4">
+                    <div class="space-y-1">
+                        <span class="text-on-surface-variant font-mono text-xs">[2024-10-12]</span>
+                        <h3 class="text-lg text-primary-fixed group-hover:underline">The Future of Concurrent Rendering in Rust</h3>
+                    </div>
+                    <span class="text-on-surface-variant font-mono text-xs">12 min read</span>
+                </article>
+                <article class="group cursor-pointer border-b border-outline-variant/30 py-4 flex justify-between items-center hover:bg-surface-variant/20 transition-colors px-4">
+                    <div class="space-y-1">
+                        <span class="text-on-surface-variant font-mono text-xs">[2024-09-28]</span>
+                        <h3 class="text-lg text-primary-fixed group-hover:underline">Scaling Microservices with K8s Sidecars</h3>
+                    </div>
+                    <span class="text-on-surface-variant font-mono text-xs">8 min read</span>
+                </article>
+                <article class="group cursor-pointer py-4 flex justify-between items-center hover:bg-surface-variant/20 transition-colors px-4">
+                    <div class="space-y-1">
+                        <span class="text-on-surface-variant font-mono text-xs">[2024-08-15]</span>
+                        <h3 class="text-lg text-primary-fixed group-hover:underline">Optimizing React Components for Zero-Latency</h3>
+                    </div>
+                    <span class="text-on-surface-variant font-mono text-xs">15 min read</span>
+                </article>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="space-y-8" id="contact">
+            <div class="flex items-center gap-2 mb-2 reveal-on-scroll">
+                <span class="text-primary-container text-sm">guest@portfolio:~$</span>
+                <h2 class="text-xl font-bold">ssh contact@dev</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="space-y-6 reveal-slide-left">
+                    <p class="text-lg">Interested in working together or just want to chat tech? Secure a connection below.</p>
+                    <div class="border border-primary-fixed p-6 bg-surface-container/60 backdrop-blur-md flex items-center justify-between rounded">
+                        <code class="text-primary-fixed font-mono text-sm" id="email-text">redwan.amin@dev.io</code>
+                        <button class="flex items-center gap-2 bg-primary-fixed text-surface px-4 py-2 text-sm font-bold hover:bg-white transition-colors rounded" id="btn-copy-email">
+                            <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                            COPY
+                        </button>
+                    </div>
+                    <div class="hidden font-mono text-xs text-primary-fixed-dim" id="copy-success">
+                        <span class="text-primary-container">SUCCESS:</span> Email copied to clipboard. Connection established.
+                    </div>
+                </div>
+                
+                <form class="space-y-4 bg-surface-container-lowest/40 backdrop-blur-md p-6 border border-outline-variant rounded reveal-slide-right" id="contact-form">
+                    <div>
+                        <label class="block text-xs font-bold mb-2 uppercase opacity-70">/usr/bin/name:</label>
+                        <input class="w-full bg-surface-container/50 border border-outline-variant focus:border-primary-fixed focus:ring-0 text-primary-fixed font-mono text-sm rounded px-3 py-2" placeholder="guest_user" type="text" required />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-2 uppercase opacity-70">/usr/bin/email:</label>
+                        <input class="w-full bg-surface-container/50 border border-outline-variant focus:border-primary-fixed focus:ring-0 text-primary-fixed font-mono text-sm rounded px-3 py-2" placeholder="user@remote.host" type="email" required />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-2 uppercase opacity-70">/usr/bin/message:</label>
+                        <textarea class="w-full bg-surface-container/50 border border-outline-variant focus:border-primary-fixed focus:ring-0 text-primary-fixed font-mono text-sm rounded px-3 py-2" placeholder="Enter transmission payload..." rows="4" required></textarea>
+                    </div>
+                    <button class="w-full border border-primary-fixed py-4 text-sm font-bold hover:bg-primary-fixed hover:text-surface transition-all duration-300 rounded" type="submit">
+                        SEND PACKET
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant mt-20 relative z-10">
+        <div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop py-8 max-w-container-max mx-auto gap-6">
+            <div class="flex flex-col items-center md:items-start">
+                <span class="text-sm text-primary-fixed font-bold">$ whoami --version 2026.1.0-neon-aquarium</span>
+                <p class="font-mono text-xs text-on-surface-variant opacity-60">Compiled with Three.js, TailwindCSS &amp; Vanilla Custom JS</p>
+            </div>
+            <div class="flex gap-8">
+                <a class="text-on-surface-variant hover:text-primary-fixed hover:glow-sm transition-colors text-sm" href="#">./github</a>
+                <a class="text-on-surface-variant hover:text-primary-fixed hover:glow-sm transition-colors text-sm" href="#">./linkedin</a>
+                <a class="text-on-surface-variant hover:text-primary-fixed hover:glow-sm transition-colors text-sm" href="#">./twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core Script -->
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>

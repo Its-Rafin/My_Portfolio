@@ -1,0 +1,294 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.cursor-terminal-blink::after {
+    content: '█';
+    display: inline-block;
+    margin-left: 4px;
+    animation: blink 1s step-end infinite;
+    color: #64ffda;
+}
+
+.glow-sm:hover {
+    box-shadow: 0 0 16px rgba(100, 255, 218, 0.4);
+    border-color: #64ffda !important;
+}
+
+.terminal-window {
+    border: 1px solid #3c4a45;
+    background: rgba(1, 14, 36, 0.85);
+    backdrop-filter: blur(12px);
+    position: relative;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.terminal-window:hover {
+    border-color: #64ffda;
+    box-shadow: 0 0 20px rgba(100, 255, 218, 0.15);
+}
+
+.terminal-header {
+    height: 32px;
+    background: #0d1c32;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    border-bottom: 1px solid #3c4a45;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.dot-red { background: #ff5f56; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green { background: #27c93f; }
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #041329;
+}
+::-webkit-scrollbar-thumb {
+    background: #3c4a45;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #64ffda;
+}
+
+body {
+    background-color: #041329;
+    color: #d6e3ff;
+    cursor: crosshair;
+    overflow-x: hidden;
+    font-family: 'JetBrains Mono', monospace;
+    scroll-behavior: smooth;
+}
+
+/* Background canvas positioning */
+#fish-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Layout adjustments for project canvas */
+.project-3d-placeholder {
+    width: 100%;
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    background: transparent;
+}
+
+/* The WebGL canvas inside each project card */
+.project-3d-placeholder canvas {
+    pointer-events: none;
+}
+
+.project-ui-overlay {
+    pointer-events: auto;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Staggered card floating animations for desktop (active only after scroll reveal triggers) */
+@media (min-width: 768px) {
+    @keyframes floatCard1 {
+        0%, 100% { transform: translateY(-28px); }
+        50% { transform: translateY(-12px); }
+    }
+    @keyframes floatCard2 {
+        0%, 100% { transform: translateY(48px); }
+        50% { transform: translateY(64px); }
+    }
+    @keyframes floatCard3 {
+        0%, 100% { transform: translateY(-16px); }
+        50% { transform: translateY(0px); }
+    }
+    
+    .reveal-on-scroll.active.project-card-1 {
+        animation: floatCard1 8s infinite ease-in-out;
+    }
+    .reveal-on-scroll.active.project-card-2 {
+        animation: floatCard2 8s infinite ease-in-out;
+    }
+    .reveal-on-scroll.active.project-card-3 {
+        animation: floatCard3 8s infinite ease-in-out;
+    }
+    
+    .project-card-1:hover {
+        animation-play-state: paused;
+        transform: translateY(-28px) scale(1.03) !important;
+        z-index: 30;
+    }
+    .project-card-2:hover {
+        animation-play-state: paused;
+        transform: translateY(48px) scale(1.03) !important;
+        z-index: 30;
+    }
+    .project-card-3:hover {
+        animation-play-state: paused;
+        transform: translateY(-16px) scale(1.03) !important;
+        z-index: 30;
+    }
+}
+
+/* Fallback simple translate on hover for mobile */
+@media (max-width: 767px) {
+    .project-ui-overlay:hover {
+        transform: translateY(-8px) scale(1.02);
+        border-color: #64ffda;
+    }
+}
+
+/* Scroll reveal animations (AOS-like behavior) */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.reveal-on-scroll.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-slide-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.reveal-slide-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-slide-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.reveal-slide-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-scale-up {
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.reveal-scale-up.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Transition delays for staggered lists */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* Loading screen styling */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #010e24;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.boot-terminal {
+    width: 100%;
+    max-width: 600px;
+    height: 350px;
+    background: rgba(4, 19, 41, 0.95);
+    border: 1px solid #3c4a45;
+    border-radius: 8px;
+    box-shadow: 0 0 32px rgba(100, 255, 218, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.boot-log-container {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #64ffda;
+}
+
+.boot-log-line {
+    opacity: 0;
+    transform: translateY(5px);
+    animation: bootLogReveal 0.1s forwards;
+}
+
+@keyframes bootLogReveal {
+    to {
+        opacity: 0.9;
+        transform: translateY(0);
+    }
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background: #0c1a30;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: #64ffda;
+    box-shadow: 0 0 8px #64ffda;
+    transition: width 0.1s ease-out;
+}
+
+/* Pulsing text utility */
+.pulse-glow {
+    animation: textPulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes textPulseGlow {
+    0%, 100% { text-shadow: 0 0 4px rgba(100, 255, 218, 0.2); opacity: 0.8; }
+    50% { text-shadow: 0 0 12px rgba(100, 255, 218, 0.8); opacity: 1; }
+}
